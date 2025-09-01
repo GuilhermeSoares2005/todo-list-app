@@ -1,0 +1,38 @@
+<div class="todo-item" [class.completed]="todo.completed">
+  <div class="todo-content">
+    <div class="todo-checkbox">
+      <button class="checkbox-btn" (click)="onToggle()" [attr.aria-label]="todo.completed ? 'Marcar como pendente' : 'Marcar como concluída'">
+        <i class="fas" [class.fa-check]="todo.completed" [class.fa-circle]="!todo.completed"></i>
+      </button>
+    </div>
+    
+    <div class="todo-details">
+      <h3 class="todo-title" [class.completed]="todo.completed">
+        {{ todo.title }}
+      </h3>
+      <p class="todo-description" *ngIf="todo.description">
+        {{ todo.description }}
+      </p>
+      <div class="todo-meta">
+        <span class="todo-date">
+          <i class="fas fa-clock"></i>
+          {{ formatDate(todo.createdAt!) }}
+        </span>
+        <span class="todo-status" [class.completed]="todo.completed">
+          <i class="fas" [class.fa-check-circle]="todo.completed" [class.fa-clock]="!todo.completed"></i>
+          {{ todo.completed ? 'Concluída' : 'Pendente' }}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="todo-actions">
+    <button class="action-btn edit-btn" (click)="onEdit()" title="Editar">
+      <i class="fas fa-edit"></i>
+    </button>
+    <button class="action-btn delete-btn" (click)="onDelete()" title="Excluir">
+      <i class="fas fa-trash"></i>
+    </button>
+  </div>
+</div>
+

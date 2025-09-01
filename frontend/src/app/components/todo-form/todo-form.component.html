@@ -1,0 +1,52 @@
+<div class="todo-form-container">
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+    <div class="form-group">
+      <label for="title" class="form-label">
+        <i class="fas fa-edit"></i>
+        Título *
+      </label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-input"
+        placeholder="Digite o título da tarefa..."
+        [class.error]="todoForm.get('title')?.invalid && todoForm.get('title')?.touched"
+      >
+      <div class="error-message" *ngIf="todoForm.get('title')?.invalid && todoForm.get('title')?.touched">
+        <span *ngIf="todoForm.get('title')?.errors?.['required']">Título é obrigatório</span>
+        <span *ngIf="todoForm.get('title')?.errors?.['minlength']">Título deve ter pelo menos 1 caractere</span>
+        <span *ngIf="todoForm.get('title')?.errors?.['maxlength']">Título deve ter no máximo 255 caracteres</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="form-label">
+        <i class="fas fa-align-left"></i>
+        Descrição
+      </label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-input form-textarea"
+        placeholder="Digite uma descrição (opcional)..."
+        rows="3"
+      ></textarea>
+      <div class="error-message" *ngIf="todoForm.get('description')?.invalid && todoForm.get('description')?.touched">
+        <span *ngIf="todoForm.get('description')?.errors?.['maxlength']">Descrição deve ter no máximo 1000 caracteres</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="todoForm.invalid">
+        <i class="fas" [class.fa-plus]="!isEditing" [class.fa-save]="isEditing"></i>
+        {{ isEditing ? 'Salvar' : 'Adicionar' }}
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        <i class="fas fa-times"></i>
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
+

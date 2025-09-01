@@ -1,0 +1,138 @@
+<div class="app-container">
+  <app-header></app-header>
+  
+  <main class="main-content">
+    <div class="container">
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="error" (click)="clearError()">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ error }}
+        <button class="error-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-tasks"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">{{ stats.totalCount }}</h3>
+              <p class="stat-label">Total</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon pending">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">{{ stats.pendingCount }}</h3>
+              <p class="stat-label">Pendentes</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon completed">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">{{ stats.completedCount }}</h3>
+              <p class="stat-label">Concluídas</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-buttons">
+          <button 
+            class="filter-btn" 
+            [class.active]="filterStatus === 'all'"
+            (click)="onFilterChange('all')"
+          >
+            <i class="fas fa-list"></i>
+            Todas
+          </button>
+          <button 
+            class="filter-btn" 
+            [class.active]="filterStatus === 'pending'"
+            (click)="onFilterChange('pending')"
+          >
+            <i class="fas fa-clock"></i>
+            Pendentes
+          </button>
+          <button 
+            class="filter-btn" 
+            [class.active]="filterStatus === 'completed'"
+            (click)="onFilterChange('completed')"
+          >
+            <i class="fas fa-check-circle"></i>
+            Concluídas
+          </button>
+        </div>
+        
+        <button class="btn btn-primary" (click)="showAddForm()" *ngIf="!showForm">
+          <i class="fas fa-plus"></i>
+          Nova Tarefa
+        </button>
+      </div>
+
+      <!-- Todo Form -->
+      <app-todo-form 
+        *ngIf="showForm"
+        [todo]="editingTodo"
+        [isEditing]="editingTodo !== undefined"
+        (save)="onSaveTodo($event)"
+        (cancel)="onCancelEdit()"
+      ></app-todo-form>
+
+      <!-- Loading State -->
+      <div class="loading-state" *ngIf="loading">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <p>Carregando tarefas...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!loading && filteredTodos.length === 0">
+        <div class="empty-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3>Nenhuma tarefa encontrada</h3>
+        <p *ngIf="filterStatus === 'all'">
+          Comece criando sua primeira tarefa!
+        </p>
+        <p *ngIf="filterStatus === 'pending'">
+          Parabéns! Todas as tarefas estão concluídas.
+        </p>
+        <p *ngIf="filterStatus === 'completed'">
+          Nenhuma tarefa foi concluída ainda.
+        </p>
+        <button class="btn btn-primary" (click)="showAddForm()" *ngIf="filterStatus === 'all'">
+          <i class="fas fa-plus"></i>
+          Criar Primeira Tarefa
+        </button>
+      </div>
+
+      <!-- Todo List -->
+      <div class="todo-list" *ngIf="!loading && filteredTodos.length > 0">
+        <app-todo-item
+          *ngFor="let todo of filteredTodos"
+          [todo]="todo"
+          (toggle)="onToggleTodo($event)"
+          (edit)="onEditTodo($event)"
+          (delete)="onDeleteTodo($event)"
+        ></app-todo-item>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
