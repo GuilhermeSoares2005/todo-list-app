@@ -121,6 +121,4 @@ taskkill /f /im node.exe
 
 ---
 
-**Desenvolvido com ❤️ para facilitar sua vida!**
-
-**🚀 ENTREGA HOJE GARANTIDA!**
+**Desenvolvido por Guilherme da Silva Soares**
